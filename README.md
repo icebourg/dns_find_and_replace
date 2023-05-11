@@ -2,11 +2,21 @@
 
 Ever need to CTRL-F find and replace all on your DNS zones? Well I need to replace thousands of DNS records en masse on Cloudflare and wanted a quick and simple way to do this, so here you go. While I have tested this and even used it in production, I can't guarantee this won't break YOUR production, so please take proper precautions.
 
+The goal of this project is to easily and safely replace many, many records in Cloudflare DNS. Let's say you have 1,000 A records pointing to 1.2.3.4 but need to change them to CNAME them to `app.example.com`, this project easily and safely performs that step en masse.
+
 ## Usage
 Create a *scoped* API key within Cloudflare with permission to edit whatever DNS zones you desire to find and replace on. This will edit _all_ zones you give your API token access to, so please be sure that's what you want.
 
 Your scoped API key should be available under the environment variable `CLOUDFLARE_API_KEY`.  Here's an example of using to replace values:
 
+### Arguments
+- `find` The *content* of the DNS records you want to replace.
+- `replacement` The new value for the replacement DNS record.
+- `replacementtype` The type of the replacement DNS record.
+- `exclude` The name of the record to exclude from being replaced, optional. (can only specify one)
+- `batchsize` How many DNS entries to replace at a time. (default: 100)
+
+### Example Usage
 ```
 dns_find_and_replace -find app.example.com -replacement test.example.com -replacementtype CNAME -exclude exclude.example.com
 Found record test1.example.com -> app.example.com (CNAME)
