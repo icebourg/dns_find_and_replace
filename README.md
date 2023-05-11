@@ -33,3 +33,25 @@ Replacing testing102.example.com
 ```
 
 I've tested with several thousand records to good effect.
+
+### Installation
+Download and install [Go](https://go.dev/doc/install), then it's as easy as:
+
+```
+% go install github.com/icebourg/dns_find_and_replace@latest
+go: downloading github.com/icebourg/dns_find_and_replace v0.0.0-20230511230158-2969184a79ef
+% dns_find_and_replace --help
+Usage of dns_find_and_replace:
+  -batchsize int
+    	the number of DNS records we will operate on at a given time (default 100)
+  -exclude string
+    	a DNS record to exclude from the replacement
+  -find string
+    	the DNS record content we are searching for (default "REQUIRED")
+  -replacement string
+    	the content of the record we want to replace with (default "REQUIRED")
+  -replacementtype string
+    	the type of the record we want to create (default "REQUIRED")
+```
+
+If `dns_find_and_replace` doesn't find the binary after a successful `go install ...`, make sure your Go installation directory is in your `$PATH`. Run `go env` to find where go is installing your binaries.
