@@ -21,7 +21,8 @@ type DeleteRecord struct {
 func main() {
 	findValue := flag.String("find", "REQUIRED", "the DNS record content we are searching for")
 	replacementValue := flag.String("replacement", "REQUIRED", "the content of the record we want to replace with")
-	replacementType := flag.String("replacementtype", "CNAME", "the type of the record we want to create")
+	replacementType := flag.String("replacementtype", "REQUIRED", "the type of the record we want to create")
+	excludeRecord := flag.String("exclude", "", "a DNS record to exclude from the replacement")
 	batchSize := flag.Int("batchsize", 100, "the number of DNS records we will operate on at a given time")
 	flag.Parse()
 
@@ -52,6 +53,10 @@ func main() {
 		}
 
 		for _, r := range records {
+			if r.Name == *excludeRecord {
+				continue
+			}
+
 			fmt.Printf("Found record %s -> %s (%s)\n", r.Name, r.Content, r.Type)
 			recordsToDelete = append(recordsToDelete, DeleteRecord{recordId: r.ID, zoneId: z.ID, record: r.Name})
 
